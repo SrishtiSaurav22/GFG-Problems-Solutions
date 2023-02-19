@@ -3,24 +3,24 @@ Given an array of size N containing only 0s, 1s, and 2s; sort the array in ascen
 
 EXAMPLE 1:
 
-Input: 
+Input:
 N = 5
 arr[]= {0 2 1 2 0}
 Output:
 0 0 1 2 2
 Explanation:
-0s 1s and 2s are segregated 
+0s 1s and 2s are segregated
 into ascending order.
 
 EXAMPLE 2:
 
-Input: 
+Input:
 N = 3
 arr[] = {0 1 0}
 Output:
 0 0 1
 Explanation:
-0s 1s and 2s are segregated 
+0s 1s and 2s are segregated
 into ascending order.
 
 Your Task:
@@ -40,6 +40,63 @@ void printVector(vector<int> vec)
 
     for(itr=vec.begin();itr!=vec.end();itr++)
         cout<<*itr<<"\t";
+}
+
+// this approach is for arrays
+vector<int> sort012_pointers_for_array(vector<int> vec)
+{
+    int low=0,mid=0,high=vec.size()-1;
+
+    while(mid<high)
+    {
+        if(vec[mid]==0)
+        {
+            swap(vec[mid],vec[low]);
+            ++mid;
+            ++low;
+        }
+
+        else if(vec[mid]==1)
+        {
+            ++mid;
+        }
+
+        else if(vec[mid]==2)
+        {
+            swap(vec[mid],vec[high]);
+            --high;
+        }
+    }
+
+    return vec;
+}
+
+vector<int> sort012_pointers_for_vector(vector<int> vec)
+{
+    int i;
+
+    while(i<vec.size())
+    {
+        if(vec[i]==0)
+        {
+            if(i!=0 && vec[i-1]!=0)
+            {
+                vec.erase(vec.begin()+i);
+                vec.insert(vec.begin(),0);
+            }
+        }
+
+        else if(vec[i]==1)
+            ++i;
+
+        else if(vec[i]==2)
+        {
+            vec.erase(vec.begin()+i);
+            vec.push_back(2);
+        }
+    }
+
+    return vec;
 }
 
 // this function takes O(3n)
@@ -93,7 +150,7 @@ int main()
     cout<<"Vector before sorting:"<<endl;
     printVector(vec);
 
-    vec=sort012(vec);
+    vec=sort012_pointers_for_vector(vec);
     cout<<endl;
 
     cout<<"Vector after sorting:"<<endl;
