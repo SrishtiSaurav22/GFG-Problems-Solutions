@@ -34,6 +34,7 @@ Expected Auxiliary Space: O(1)
 
 using namespace std;
 
+// function to print a vector
 void printVector(vector<int> vec)
 {
     vector<int>::iterator itr;
@@ -42,7 +43,17 @@ void printVector(vector<int> vec)
         cout<<*itr<<"\t";
 }
 
-// this approach is for arrays
+// function to print an array
+void printArray(int arr[], int n)
+{
+    int i;
+
+    for(i=0;i<n;i++)
+        cout<<arr[i]<<"\t";
+}
+
+// this approach is for vectors but without using std::vector functions
+// this approach can be applied to arrays, hence the function name
 vector<int> sort012_pointers_for_array(vector<int> vec)
 {
     int low=0,mid=0,high=vec.size()-1;
@@ -71,6 +82,8 @@ vector<int> sort012_pointers_for_array(vector<int> vec)
     return vec;
 }
 
+// this approach is for vectors using std::vector functions
+// this approach can be applied to vectors, hence the function name
 vector<int> sort012_pointers_for_vector(vector<int> vec)
 {
     int i;
@@ -99,9 +112,10 @@ vector<int> sort012_pointers_for_vector(vector<int> vec)
     return vec;
 }
 
-// this function takes O(3n)
-// find solution that takes O(n) time?
-// the two main things are that: array should be sorted in place and that it should be done in O(n) time
+/* The two main points are:
+    1) array should be sorted in place
+    2) solution should run in O(n) time
+*/
 vector<int> sort012(vector<int> vec)
 {
     int i,n0=0,n1=0,n2=0;
@@ -137,8 +151,38 @@ vector<int> sort012(vector<int> vec)
     return vec;
 }
 
+// the actual solution posted
+// this approach is for arrays
+// the simplest approach
+void sort012(int a[], int n)
+{
+    int i,j,k,n0=0,n1=0,n2=0;
+
+    for(i=0;i<n;i++)
+    {
+        if(a[i]==0)
+            ++n0;
+
+        if(a[i]==1)
+            ++n1;
+
+        if(a[i]==2)
+            ++n2;
+    }
+
+    for(i=0;i<n0;i++)
+        a[i]=0;
+
+    for(j=i;j<(n0+n1);j++)
+        a[j]=1;
+
+    for(k=j;k<(n0+n1+n2);k++)
+        a[k]=2;
+}
+
 int main()
 {
+    /*
     vector<int> vec;
 
     vec.push_back(0);
@@ -155,6 +199,19 @@ int main()
 
     cout<<"Vector after sorting:"<<endl;
     printVector(vec);
+    */
+
+    int a[]={0,2,1,2,0};
+
+    cout<<"Array before sorting: "<<endl;
+    printArray(a,5);
+
+    sort012(a,5);
+    cout<<endl;
+
+    cout<<"Array after sorting: "<<endl;
+    printArray(a,5);
+
 
     cout<<endl;
     return 0;
